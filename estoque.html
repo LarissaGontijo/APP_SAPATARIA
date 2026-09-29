@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Estoque</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <header>
+
+        <h1>Controle de Estoque</h1>
+
+        <nav>
+            <a href="vendas.html">Vendas</a>
+            <a href="estoque.html">Estoque</a>
+            <a href="index.html">Sair</a>
+        </nav>
+
+    </header>
+
+
+    <main>
+
+        <section class="card">
+
+            <h2>Cadastro de Produto</h2>
+
+            <form id="formEstoque">
+
+                <label for="idEstoque">ID do Estoque</label>
+
+                <input type="number" id="idEstoque" required>
+
+
+                <label for="produtosEstoque">Produto</label>
+
+                <input type="text" id="produtosEstoque" required>
+
+
+                <label for="produtoDescricao">Descrição do Produto</label>
+
+                <textarea id="produtoDescricao" required></textarea>
+
+
+                <label for="quantidadeEstoque">Quantidade em Estoque</label>
+
+                <input type="number" id="quantidadeEstoque" min="0" required>
+
+
+                <button type="submit">
+                    Cadastrar Produto
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <section class="card">
+
+            <h2>Produtos em Estoque</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Produto</th>
+                        <th>Descrição</th>
+                        <th>Quantidade</th>
+                        <th>Ação</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="listaEstoque"></tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        const formEstoque = document.getElementById("formEstoque");
+
+
+        function carregarEstoque() {
+
+            const estoque =
+                JSON.parse(localStorage.getItem("estoque")) || [];
+
+            const lista =
+                document.getElementById("listaEstoque");
+
+            lista.innerHTML = "";
+
+
+            estoque.forEach((produto, index) => {
+
+                lista.innerHTML += `
+
+                    <tr>
+
+                        <td>${produto.id}</td>
+
+                        <td>${produto.nome}</td>
+
+                        <td>${produto.descricao}</td>
+
+                        <td>${produto.quantidade}</td>
+
+                        <td>
+
+                            <button onclick="excluirProduto(${index})">
+                                Excluir
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            });
+
+        }
+
+
+        formEstoque.addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+
+            const produto = {
+
+                id: document.getElementById("idEstoque").value,
+
+                nome: document.getElementById("produtosEstoque").value,
+
+                descricao:
+                    document.getElementById("produtoDescricao").value,
+
+                quantidade:
+                    document.getElementById("quantidadeEstoque").value
+
+            };
+
+
+            const estoque =
+                JSON.parse(localStorage.getItem("estoque")) || [];
+
+
+            estoque.push(produto);
+
+
+            localStorage.setItem(
+                "estoque",
+                JSON.stringify(estoque)
+            );
+
+
+            formEstoque.reset();
+
+            carregarEstoque();
+
+        });
+
+
+        function excluirProduto(index) {
+
+            const estoque =
+                JSON.parse(localStorage.getItem("estoque")) || [];
+
+
+            estoque.splice(index, 1);
+
+
+            localStorage.setItem(
+                "estoque",
+                JSON.stringify(estoque)
+            );
+
+
+            carregarEstoque();
+
+        }
+
+
+        carregarEstoque();
+
+    </script>
+
+</body>
+</html>

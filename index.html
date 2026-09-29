@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Walk Calçados</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Walk</h1>
+            <p class="subtitulo">
+                Sistema de gerenciamento da loja
+            </p>
+            <form id="formFuncionario">
+                <label for="idFuncionario">
+                    ID do Funcionário
+                </label>
+                <input
+                    type="number"
+                    id="idFuncionario"
+                    placeholder="Digite seu ID"
+                    required
+                >
+                <label for="nomeFuncionario">
+                    Nome do Funcionário
+                </label>
+                <input
+                    type="text"
+                    id="nomeFuncionario"
+                    placeholder="Digite seu nome"
+                    required
+                >
+                <label for="matriculaFuncionario">
+                    Matrícula
+                </label>
+                <input
+                    type="text"
+                    id="matriculaFuncionario"
+                    placeholder="Digite sua matrícula"
+                    required
+                >
+                <label for="senhaFuncionario">
+                    Senha
+                </label>
+                <input
+                    type="password"
+                    id="senhaFuncionario"
+                    placeholder="Digite sua senha"
+                    required
+                >
+                <button type="submit">
+                    Entrar
+                </button>
+            </form>
+            <p id="mensagem"></p>
+        </div>
+    </div>
+    <script>
+
+        const funcionarioCadastrado = {
+            id: "001",
+            nome: "Larissa",
+            matricula: "2026001",
+            senha: "123456"
+        };
+
+        document
+            .getElementById("formFuncionario")
+            .addEventListener("submit", function(event) {
+                event.preventDefault();
+                const id =
+                    document.getElementById("idFuncionario").value;
+                const nome =
+                    document.getElementById("nomeFuncionario").value;
+                const matricula =
+                    document.getElementById("matriculaFuncionario").value;
+                const senha =
+                    document.getElementById("senhaFuncionario").value;
+                if (
+                    id === funcionarioCadastrado.id &&
+                    nome.toLowerCase() ===
+                    funcionarioCadastrado.nome.toLowerCase() &&
+                    matricula === funcionarioCadastrado.matricula &&
+                    senha === funcionarioCadastrado.senha
+                ) {
+                    localStorage.setItem(
+                        "funcionario",
+                        JSON.stringify(funcionarioCadastrado)
+                    );
+                    window.location.href = "vendas.html";
+                } else {
+                    document.getElementById("mensagem").textContent =
+                        "❌ Dados incorretos. Verifique suas informações.";
+                }
+            });
+    </script>
+</body>
+</html> 
